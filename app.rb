@@ -32,6 +32,10 @@ get '/queries' do
   haml :queries
 end
 
+get '/queries/:token' do
+  params[:token]
+end
+
 def save_query_session(words, query_token)
   unless session.has_key?(:queries)
     session[:queries] = {}
