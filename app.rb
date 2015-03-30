@@ -18,17 +18,16 @@ get '/' do
 end
 
 post '/search' do
-  helper = MongoHelper.new
-  words = params[:words]
-  helper.execute_mr(words)
+  helper = MongoHelper.new.execute_mr(params[:words])
   haml :index
 end
 
 get '/queries' do
-  @queries = session[:queries]
+  @queries = MongoHelper.new.get_executed_queries
+  p @queries
   haml :queries
 end
 
 get '/queries/:token' do
-  params[:token]
+  MongoHelper.new.get_query(params[:token]).to_s
 end

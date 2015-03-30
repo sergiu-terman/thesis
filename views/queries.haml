@@ -1,9 +1,9 @@
 .container
   - unless @queries.nil? || @queries.empty?
     %table.table.table-striped
-      - @queries.each do |token, words|
+      - @queries.each do |query|
         %tr
           %td
-            %a{href: "/queries/#{token}"} #{words}
+            %a{href: "/queries/#{query.token}"} #{query.words}
   - else
     %h2 No queries performed

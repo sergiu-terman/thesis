@@ -2,6 +2,7 @@ require 'mongoid'
 require 'securerandom'
 require_relative 'parsed_page'
 require_relative 'query_result'
+require_relative 'executed_query'
 require_relative 'mr_methods'
 
 class MongoHelper
@@ -11,14 +12,22 @@ class MongoHelper
   end
 
   def execute_mr(input)
-    query_token = SecureRandom.urlsafe_base64(nil, false)
+    token = SecureRandom.urlsafe_base64(nil, false)
     clean_input = sanitize_input(input)
     output = ParsedPage.map_reduce(map(clean_input), reduce).out(inline: true)
     result = output.to_a.map do |e|
       {date: e["_id"], mentions: e["value"]}
     end
-    ExecutedQuery.where(query_token: query_token, words: input).create!
-    QueryResult.where(query_token: query_token, result: result).create!
+    ExecutedQuery.where(token: token, words: input).create!
+    QueryResult.where(token: token, result: result).create!
+  end
+
+  def get_executed_queries
+    ExecutedQuery.all.to_a
+  end
+
+  def get_query(token)
+    QueryResult.where(token: token).first.result
   end
 
 private
