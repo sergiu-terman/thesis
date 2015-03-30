@@ -1,3 +1,5 @@
+require 'mongoid'
+
 class ParsedPage
   include Mongoid::Document
 

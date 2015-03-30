@@ -4,6 +4,7 @@
     %title Thesis
     %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}/
     %link{:href => "/vendor/bootstrap/css/bootstrap.min.css", :rel => "stylesheet"}/
+    %link{href: "css/style.css", rel: "stylesheet", type: "text/css"}
   %body
     .container
       %nav.navbar.navbar-default{:role => "navigation"}
@@ -13,23 +14,9 @@
             %span.icon-bar
             %span.icon-bar
             %span.icon-bar
-          %a.navbar-brand{:href => "/"} thesis
-        .navbar-collapse.collapse
-          %ul.nav.navbar-nav
-            %li
-              %a{:href => "/secure/place"} Secret
-          %ul.nav.navbar-nav.navbar-right
-            %li.dropdown
-              %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-                = username
-                %b.caret
-              %ul.dropdown-menu
-                %li
-                  %a{:href => "/login/form"} Login
-                %li.divider
-                %li
-                  %a{:href => "/logout"} Logout
+          %a.navbar-brand{href: "/"} Thesis
+          %a.navbar-brand{href: "/queries"} Queries
       #content
         = yield
-    %script{:src => "/vendor/jquery-1.9.1.min.js"}
-    %script{:src => "/vendor/bootstrap/js/bootstrap.min.js"}
+    %script{src: "/vendor/jquery-1.9.1.min.js"}
+    %script{src: "/vendor/bootstrap/js/bootstrap.min.js"}

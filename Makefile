@@ -1,2 +1,2 @@
 all:
-	rerun 'ruby app.rb'
+	ruby app.rb
