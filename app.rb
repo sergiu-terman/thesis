@@ -1,7 +1,6 @@
 require 'rubygems'
 require 'sinatra'
-require 'securerandom'
-require_relative 'lib/mr_helper'
+require_relative 'lib/mongo/mongo_helper'
 
 configure do
   enable :sessions
@@ -19,11 +18,9 @@ get '/' do
 end
 
 post '/search' do
-  helper = MRHelper.new
-  query_token = SecureRandom.urlsafe_base64(nil, false)
+  helper = MongoHelper.new
   words = params[:words]
-  helper.execute_mr(words, query_token)
-  save_query_session(words, query_token)
+  helper.execute_mr(words)
   haml :index
 end
 
@@ -34,11 +31,4 @@ end
 
 get '/queries/:token' do
   params[:token]
-end
-
-def save_query_session(words, query_token)
-  unless session.has_key?(:queries)
-    session[:queries] = {}
-  end
-  session[:queries][query_token] = words
 end
