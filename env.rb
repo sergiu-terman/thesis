@@ -2,6 +2,7 @@ require 'sidekiq'
 require 'securerandom'
 require 'mongoid'
 require 'em-websocket'
+require 'tilt/haml'
 
 require_relative "lib/mongo/executed_query"
 require_relative "lib/mongo/mongo_helper"
