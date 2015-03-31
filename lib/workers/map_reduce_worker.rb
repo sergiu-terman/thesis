@@ -1,9 +1,9 @@
-require 'sidekiq'
+require_relative '../../env'
 
 class MapReduceWorker
   include Sidekiq::Worker
 
-  def perform(name, count)
-    p "Perform something"
+  def perform(words)
+    MongoHelper.new.execute_mr(words)
   end
 end

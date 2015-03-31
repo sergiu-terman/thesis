@@ -1,6 +1,5 @@
-require 'rubygems'
 require 'sinatra'
-require_relative 'lib/mongo/mongo_helper'
+require_relative 'env'
 
 configure do
   enable :sessions
@@ -18,13 +17,12 @@ get '/' do
 end
 
 post '/search' do
-  helper = MongoHelper.new.execute_mr(params[:words])
+  MapReduceWorker.perform_async(params[:words])
   haml :index
 end
 
 get '/queries' do
   @queries = MongoHelper.new.get_executed_queries
-  p @queries
   haml :queries
 end
 

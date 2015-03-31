@@ -1,15 +1,6 @@
-require 'mongoid'
-require 'securerandom'
-require_relative 'parsed_page'
-require_relative 'query_result'
-require_relative 'executed_query'
-require_relative 'mr_methods'
+require_relative '../../env'
 
 class MongoHelper
-
-  def initialize
-    Mongoid.load!("lib/mongo/mongoid.yml", :development)
-  end
 
   def execute_mr(input)
     token = SecureRandom.urlsafe_base64(nil, false)

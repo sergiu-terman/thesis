@@ -1,4 +1,4 @@
-require 'mongoid'
+require_relative '../../env'
 
 class QueryResult
   include Mongoid::Document
