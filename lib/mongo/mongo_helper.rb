@@ -2,7 +2,7 @@ require_relative '../../env'
 
 class MongoHelper
 
-  def execute_mr(input)
+  def execute_mr(input, token)
     token = SecureRandom.urlsafe_base64(nil, false)
     clean_input = sanitize_input(input)
     output = ParsedPage.map_reduce(map(clean_input), reduce).out(inline: true)

@@ -17,6 +17,7 @@ get '/' do
 end
 
 post '/search' do
+  token = SecureRandom.urlsafe_base64(nil, false)
   MapReduceWorker.perform_async(params[:words])
   haml :index
 end
