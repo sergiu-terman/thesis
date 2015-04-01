@@ -3,6 +3,10 @@ require 'securerandom'
 require 'mongoid'
 require 'em-websocket'
 require 'tilt/haml'
+require 'websocket-eventmachine-client'
+require 'json'
+require 'redis'
+require 'faye'
 
 require_relative "lib/mongo/executed_query"
 require_relative "lib/mongo/mongo_helper"
