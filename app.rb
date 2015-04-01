@@ -19,8 +19,8 @@ class MyApp < Sinatra::Base
 
   post '/search' do
     token = SecureRandom.urlsafe_base64(nil, false)
-    MapReduceWorker.perform_async(params[:words])
-    haml :index
+    MapReduceWorker.perform_async(params[:words], token)
+    token
   end
 
   get '/queries' do

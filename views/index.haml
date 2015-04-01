@@ -1,5 +1,40 @@
 .container
-  %form.form-signin.main-form{action: "/search",  method: "post"}
-    %input.input-block-level.input-main-form{name: "words", type: "text", placeholder: "Words..."}
+  .main-form
+    %input#input-main-form.input-block-level{name: "words", type: "text", placeholder: "Words..."}
     %br
-    %button.btn.btn-large.btn-primary.btn-main-form{type: "submit"} Look up
+    %button#btn-main-form.btn.btn-large.btn-primary{type: "submit"} Look up
+
+:javascript
+
+$(function(){
+  var client = new Faye.Client('http://localhost:9292/faye');
+  
+  function my_notify(msg, type) {
+    type = typeof type !== 'undefined' ? type : 'info';
+    $.notify({
+       message: msg,
+       target: '_blank'
+     },{
+       delay: 3000,
+       type: type
+     });
+  }
+
+  $("#btn-main-form").click(function() {
+    $(this).blur();
+    my_notify("Request made");
+    var words = $("#input-main-form").val();
+    $("#input-main-form").val("")
+    $.ajax({
+      method: "POST",
+      url: "search",
+      data: {words: words}
+    })
+    .done(function(token) {
+      var subscription = window.client.subscribe("/messages/"+token, function(response) {
+        my_notify(response.message, response.type);
+        subscription.cancel();
+      })
+    });
+  });
+});

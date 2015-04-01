@@ -2,11 +2,11 @@
   text-align: center;
 }
 
-.btn-main-form {
+#btn-main-form {
   margin-top: 10px;
 }
 
-.input-main-form {
+#input-main-form {
   width: 400px;
   height: 50px;
   text-align: center;
