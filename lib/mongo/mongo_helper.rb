@@ -14,7 +14,7 @@ class MongoHelper
   end
 
   def get_executed_queries
-    ExecutedQuery.all.to_a
+    ExecutedQuery.all.to_a.reverse
   end
 
   def get_query(token)
