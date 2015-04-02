@@ -8,7 +8,7 @@
 
 $(function(){
   var client = new Faye.Client('http://localhost:9292/faye');
-  
+
   function my_notify(msg, type) {
     type = typeof type !== 'undefined' ? type : 'info';
     $.notify({
