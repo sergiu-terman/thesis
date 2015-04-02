@@ -3,7 +3,7 @@ def map(words)
     function() {
       var words = #{preprocess_words(words)};
       var date = this.datetime
-      var key_date = date.getFullYear() + "/" + date.getMonth() + "/" + date.getDate();
+      var key_date = new Date(date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate());
 
       for (var i = 0; i < words.length; i++) {
         if (this.content.indexOf(words[i]) >= 0) {
