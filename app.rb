@@ -29,7 +29,14 @@ class MyApp < Sinatra::Base
   end
 
   get '/queries/:token' do
-    MongoHelper.new.get_query(params[:token]).to_s
+    response = MongoHelper.new.get_query(params[:token])
+    response.shift
+    @result = response.to_json
+    haml :plot
+  end
+
+  get '/plot' do
+    haml :plot
   end
 end
 

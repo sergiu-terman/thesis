@@ -12,3 +12,11 @@
   text-align: center;
   font-size: 20px;
 }
+
+div.bar {
+  display: inline-block;
+  width: 20px;
+  height: 75px; /* We'll override height later */
+  background-color: teal;
+  margin-right: 2px;
+}
