@@ -7,6 +7,7 @@ require 'websocket-eventmachine-client'
 require 'json'
 require 'redis'
 require 'faye'
+require 'date'
 
 require_relative "lib/mongo/executed_query"
 require_relative "lib/mongo/mongo_helper"

@@ -18,7 +18,9 @@ class MongoHelper
   end
 
   def get_query(token)
-    QueryResult.where(token: token).first.result
+    result = QueryResult.where(token: token).first.result
+    result.shift
+    result
   end
 
 private
