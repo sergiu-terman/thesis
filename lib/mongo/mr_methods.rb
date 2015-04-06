@@ -2,8 +2,8 @@ def map(words)
   %Q{
     function() {
       var words = #{preprocess_words(words)};
-      var date = this.datetime
-      var key_date = new Date(date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate());
+      var date = this.datetime;
+      var key_date = (date.getMonth() + 1) + "-" + date.getFullYear();
 
       for (var i = 0; i < words.length; i++) {
         if (this.content.indexOf(words[i]) >= 0) {

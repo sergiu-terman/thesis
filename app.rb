@@ -31,7 +31,6 @@ class MyApp < Sinatra::Base
   get '/queries/:token' do
     response = MongoHelper.new.get_query(params[:token])
     @result = sanitize_data(response)
-    p @result
     @result = @result.to_json
     haml :plot
   end
@@ -41,16 +40,23 @@ class MyApp < Sinatra::Base
   end
 
   def sanitize_data(data)
-    oldest = Date.parse(data.min_by {|x| x["date"]}["date"].strftime("%Y/%m/%d"))
-    newest = Date.parse(data.max_by {|x| x["date"]}["date"].strftime("%Y/%m/%d"))
-    all_dates = (oldest..newest).map {|x| x.year.to_s + "-" + x.month.to_s}.uniq
-
+    all_dates = gen_date_range(data)
     morphed = {}
-    data = data.each do |x|
-      date = x["date"].year.to_s + "-" + x["date"].month.to_s
-      morphed[date] = morphed.fetch(date, 0) + x["mentions"]
+    data.each do |e|
+      date = e["date"]
+      morphed[date] = morphed.fetch(date, 0) + e["mentions"]
     end
     all_dates.map {|d| {date: d, mentions: morphed.fetch(d, 0)}}
+  end
+
+  def gen_date_range(data)
+    oldest = extract_date(data.min_by { |e| extract_date(e) })
+    newest = extract_date(data.max_by { |e| extract_date(e) })
+    all_dates = (oldest..newest).map {|x| x.month.to_s + "-" + x.year.to_s}.uniq
+  end
+
+  def extract_date(e)
+    Date.parse("1-"+e["date"])
   end
 end
 
