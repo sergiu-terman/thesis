@@ -1,5 +1,23 @@
 .plot_content
   %svg#visualization{width: 1000, height: 500}
+css:
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+
+  .x.axis path {
+    display: none;
+  }
+
+  .line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+  }
+
 :javascript
   var lineData = #{@result};
   var vis = d3.select('#visualization'),
@@ -48,7 +66,7 @@
     .y(function(d) {
       return yRange(d.mentions);
     })
-    .interpolate('linear');
+    .interpolate('cardinal');
 
   vis.append('svg:path')
     .attr('d', lineFunc(lineData))
