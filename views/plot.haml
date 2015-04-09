@@ -1,6 +1,7 @@
 .plot_content
-  %svg#visualization{width: 1000, height: 500}
-css:
+  #mentions
+
+:css
   .axis path,
   .axis line {
     fill: none;
@@ -19,57 +20,54 @@ css:
   }
 
 :javascript
-  var lineData = #{@result};
-  var vis = d3.select('#visualization'),
-    WIDTH = 1000,
-    HEIGHT = 500,
-    MARGINS = {
-      top: 20,
-      right: 20,
-      bottom: 20,
-      left: 50
-    },
-    xRange = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([d3.min(lineData, function(d, i) {
-      return i;
-    }), d3.max(lineData, function(d, i) {
-      return i;
-    })]),
-    yRange = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([d3.min(lineData, function(d) {
-      return d.mentions;
-    }), d3.max(lineData, function(d) {
-      return d.mentions;
-    })]),
-    xAxis = d3.svg.axis()
-      .scale(xRange)
-      .tickSize(5)
-      .tickSubdivide(true),
-    yAxis = d3.svg.axis()
-      .scale(yRange)
-      .tickSize(5)
-      .orient('left')
-      .tickSubdivide(true);
+  var dataset = #{@result};
+  var margin = {top: 20, right: 20, bottom: 30, left: 40},
+    w = 1000 - margin.left - margin.right,
+    h = 500 - margin.top - margin.bottom;
 
-  vis.append('svg:g')
-    .attr('class', 'x axis')
-    .attr('transform', 'translate(0,' + (HEIGHT - MARGINS.bottom) + ')')
-    .call(xAxis);
+  var y = d3.scale.linear()
+      .domain([0, d3.max(dataset, function(d) {return d.mentions})])
+      .range([h, 0]);
 
-  vis.append('svg:g')
-    .attr('class', 'y axis')
-    .attr('transform', 'translate(' + (MARGINS.left) + ',0)')
-    .call(yAxis);
+  var x = d3.time.scale()
+      .domain([0, dataset.length])
+      .range([0, w]);
 
-  var lineFunc = d3.svg.line()
-    .x(function(d, i) {
-      return xRange(i);
-    })
-    .y(function(d) {
-      return yRange(d.mentions);
-    })
-    .interpolate('cardinal');
+  var svg = d3.select("#mentions").append("svg")
+      .attr("width", w + margin.left + margin.right)
+      .attr("height", h + margin.top + margin.bottom)
+    .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  vis.append('svg:path')
-    .attr('d', lineFunc(lineData))
-    .attr('stroke', 'blue')
-    .attr('stroke-width', 1)
-    .attr('fill', 'none');
+  var xAxis = d3.svg.axis()
+      .scale(x)
+      .orient("bottom");
+
+  var yAxis = d3.svg.axis()
+      .scale(y)
+      .orient("left");
+
+  var line = d3.svg.line()
+    .x(function(d, i) { return x(i); })
+    .y(function(d) { return y(d.mentions); })
+    .interpolate("cardinal-open");
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + h + ")")
+      .call(xAxis);
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Mentions");
+
+  svg.append("path")
+      .datum(dataset)
+      .attr("class", "line")
+      .attr("d", line);
