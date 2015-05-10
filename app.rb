@@ -46,7 +46,7 @@ class MyApp < Sinatra::Base
       date = e["date"]
       morphed[date] = morphed.fetch(date, 0) + e["mentions"]
     end
-    all_dates.map {|d| {date: d, mentions: morphed.fetch(d, 0)}}
+    all_dates.map {|d| {date: Date.parse("1-"+d), mentions: morphed.fetch(d, 0)}}
   end
 
   def gen_date_range(data)
