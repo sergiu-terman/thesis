@@ -1,4 +1,6 @@
 require 'sinatra/base'
+
+
 require_relative 'env'
 
 class MyApp < Sinatra::Base
@@ -7,10 +9,6 @@ class MyApp < Sinatra::Base
   end
 
   helpers do
-  end
-
-  before '/*' do
-    p "I'm a filter motherfucker"
   end
 
   get '/' do
