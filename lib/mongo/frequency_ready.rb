@@ -1,6 +1,6 @@
 require_relative '../../env'
 
-class FreqencyReady
+class FrequencyReady
   include Mongoid::Document
   store_in collection: "frequency_ready"
 
